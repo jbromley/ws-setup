@@ -130,8 +130,8 @@ function install_yazi {
   msg "${GREEN}Installing yazi from ${url}${NOFORMAT}"
   curl --silent --show-error --location --remote-name "${url}"
   unzip -qq "${name}"
-  mv "${zipdir}/{ya,yazi}" ~/.local/bin/
-  mv "${zipdir}/completions/{_ya,_yazi}" ~/.zsh/
+  mv "${zipdir}"/ya{,zi} ~/.local/bin/
+  mv "${zipdir}"/completions/{_ya,_yazi} ~/.zsh/
   rm -rf "${zipdir}"
 }
 
