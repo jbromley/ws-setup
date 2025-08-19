@@ -102,7 +102,7 @@ function install_deb {
   name=$(basename "${url}")
 
   msg "${GREEN}Installing ${name} from ${url}${NOFORMAT}"
-  curl --silent --show-error --remote-name "${url}"
+  curl --silent --show-error --location --remote-name "${url}"
   needroot dpkg --install "${name}"
   rm "${name}"
 }
@@ -114,7 +114,7 @@ function install_archive {
   name=$(basename "${url}")
 
   msg "${GREEN}Installing ${executable} from ${url}${NOFORMAT}"
-  curl --silent --show-error --remote-name "${url}"
+  curl --silent --show-error --location --remote-name "${url}"
   tar -xf "${name}" "${executable}"
   mv "${executable}" ~/.local/bin
   rm "${name}"
@@ -128,7 +128,7 @@ function install_yazi {
   zipdir=${name%.*}
 
   msg "${GREEN}Installing yazi from ${url}${NOFORMAT}"
-  curl --silent --show-error --remote-name "${url}"
+  curl --silent --show-error --location --remote-name "${url}"
   unzip -qq "${name}"
   mv "${zipdir}/{ya,yazi}" ~/.local/bin/
   mv "${zipdir}/completions/{_ya,_yazi}" ~/.zsh/
