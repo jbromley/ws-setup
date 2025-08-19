@@ -81,7 +81,8 @@ function needroot() { sudo -n "$@"; }
 function install_dotfiles {
   local repo="$1"
   local dotfiles_dir="$2"
-  local dotfiles="aliases config/{atuin,bat,emacs,helix,kitty,nvim,tmux,yazi} dircolors gitignore rcrc sbcl{_completions,rc} zsh zshenv zshrc"
+  local dotfiles
+  dotfiles=$(cat ./dotfiles)
 
   msg "${GREEN}Installing ${repo} to ${dotfiles_dir}${NOFORMAT}"
   git clone "${repo}" "${dotfiles_dir}"

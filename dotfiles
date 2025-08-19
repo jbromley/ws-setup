@@ -1,0 +1,16 @@
+aliases
+config/atuin
+config/bat
+config/emacs
+config/helix
+config/kitty
+config/nvim
+config/tmux
+config/yazi
+dircolors
+gitignore
+rcrc
+sbcl{_completions,rc}
+zsh
+zshenv
+zshrc
