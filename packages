@@ -23,7 +23,6 @@ clang-tools
 cmake
 cmake-curses-gui
 colortest
-curl
 ddd
 dia
 diceware

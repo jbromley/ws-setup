@@ -84,7 +84,6 @@ function install_dotfiles {
   local dotfiles="aliases config/{atuin,bat,emacs,helix,kitty,nvim,tmux,yazi} dircolors gitignore rcrc sbcl{_completions,rc} zsh zshenv zshrc"
 
   msg "${GREEN}Installing ${repo} to ${dotfiles_dir}${NOFORMAT}"
-  needroot apt install --yes git rcm
   git clone "${repo}" "${dotfiles_dir}"
   cd "${dotfiles_dir}"
   for dotfile in ${dotfiles}; do
@@ -212,6 +211,7 @@ function configure_user {
 # Main entry point
 needroot apt update
 needroot apt upgrade --yes
+needroot apt install --yes git rcm curl
 mkdir ~/.local/bin
 
 install_dotfiles git@github.com:jbromley/dotfiles.git ~/.dotfiles
