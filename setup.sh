@@ -138,7 +138,8 @@ function install_yazi {
 
 function install_kitty {
   msg "${GREEN}Installing kitty${NOFORMAT}"
-  curl -L https://sw.kovidgoyal.net/kitty/installer.sh | sh /dev/stdin
+  curl -LO https://sw.kovidgoyal.net/kitty/installer.sh
+  sh ./installer.sh launch=n
 
   mkdir -p ~/.local/share/applications
   ln -sf ~/.local/kitty.app/bin/kitty ~/.local/kitty.app/bin/kitten ~/.local/bin/
@@ -159,6 +160,7 @@ function install_atuin {
 
 function install_mise {
   local mise="${HOME}/.local/bin/mise"
+  local core_plugins="elixir node rust"
   local runtimes
   runtimes=$(cat ./runtimes)
 
@@ -169,7 +171,7 @@ function install_mise {
   for runtime in ${runtimes}; do
     plugin=${runtime//@[0-9\.]*/}
     # shellcheck disable=SC2076
-    if [[ ! " node rust " =~ " ${plugin} " ]]; then
+    if [[ ! " ${core_plugins} " =~ " ${plugin} " ]]; then
       ${mise} plugin install "${plugin}"
     fi
     ${mise} use --global "${runtime}"
