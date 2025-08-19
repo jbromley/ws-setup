@@ -91,9 +91,9 @@ function install_dotfiles {
     rcup -v "${dotfile}"
   done
 
-  git clone https://github.com/zsh-users/zsh-autosuggestions ~/.zsh/zsh-autosuggestions ~/.zsh
-  git clone https://github.com/zsh-users/zsh-syntax-highlighting.git ~/.zsh
-  git clone https://github.com/zsh-users/zsh-completions.git ~/.zsh
+  git clone https://github.com/zsh-users/zsh-autosuggestions ~/.zsh/zsh-autosuggestions
+  git clone https://github.com/zsh-users/zsh-syntax-highlighting.git ~/.zsh/zsh-syntax-highlighting
+  git clone https://github.com/zsh-users/zsh-completions.git ~/.zsh/zsh-completions
 }
 
 function install_deb {
