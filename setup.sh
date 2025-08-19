@@ -86,10 +86,11 @@ function install_dotfiles {
 
   msg "${GREEN}Installing ${repo} to ${dotfiles_dir}${NOFORMAT}"
   git clone "${repo}" "${dotfiles_dir}"
-  cd "${dotfiles_dir}"
+  pushd "${dotfiles_dir}"
   for dotfile in ${dotfiles}; do
     rcup -v "${dotfile}"
   done
+  popd
 
   git clone https://github.com/zsh-users/zsh-autosuggestions ~/.zsh/zsh-autosuggestions
   git clone https://github.com/zsh-users/zsh-syntax-highlighting.git ~/.zsh/zsh-syntax-highlighting
