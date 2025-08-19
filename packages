@@ -60,8 +60,6 @@ htop
 iputils-ping
 ipython3
 jq
-libvirt-clients
-libvirt-daemon-system
 links2
 lldb
 lynx
