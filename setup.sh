@@ -218,7 +218,7 @@ function configure_user {
 # Main entry point
 needroot apt update
 needroot apt upgrade --yes
-needroot apt install --yes git rcm curl
+needroot apt install --yes git rcm curl build-essential
 mkdir ~/.local/bin
 
 install_dotfiles git@github.com:jbromley/dotfiles.git ~/.dotfiles
