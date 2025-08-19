@@ -160,13 +160,15 @@ function install_atuin {
 
 function install_mise {
   local mise="${HOME}/.local/bin/mise"
-  local core_plugins="elixir node rust"
+  local core_plugins="erlang elixir node rust"
   local runtimes
   runtimes=$(cat ./runtimes)
 
   msg "${GREEN}Installing mise${NOFORMAT}"
 
   curl https://mise.run | sh
+  # shellcheck source=/dev/null
+  source <(${mise} activate)
 
   for runtime in ${runtimes}; do
     plugin=${runtime//@[0-9\.]*/}
