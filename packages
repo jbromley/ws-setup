@@ -60,6 +60,8 @@ htop
 iputils-ping
 ipython3
 jq
+libvirt-clients
+libvirt-daemon-system
 links2
 lldb
 lynx
@@ -72,7 +74,7 @@ p7zip-full
 pandoc
 pgformatter
 pkgconf
-qemu
+qemu-kvm
 qemu-guest-agent
 qemu-system-arm
 qemu-user-static
