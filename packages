@@ -101,6 +101,7 @@ units
 uuid-dev
 valgrind
 virt-manager
+wireshark
 xclip
 xsltproc
 xz-utils
