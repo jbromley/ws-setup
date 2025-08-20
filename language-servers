@@ -3,7 +3,6 @@ bash-language-server    npm
 clangd                  apt
 neocmakelsp             cargo
 dot-language-server     npm
-elixir-ls               mise
 elp                     tar    https://github.com/WhatsApp/erlang-language-platform/releases/download/2025-07-21/elp-linux-x86_64-unknown-linux-gnu-otp-26.2.tar.gz
 vscode-json-language-service npm
 marksman                binary https://github.com/artempyanykh/marksman/releases/download/2024-12-18/marksman-linux-x64 marksman-linux-x64
