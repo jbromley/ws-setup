@@ -136,6 +136,25 @@ function install_yazi {
   rm -rf "${zipdir}"
 }
 
+function install_nf_symbols {
+  local url=https://github.com/ryanoasis/nerd-fonts/releases/download/v3.4.0/NerdFontsSymbolsOnly.zip
+  local zipfile
+  local fontdir=/usr/local/share/fonts/symbol-nf
+  zipfile=$(basename "${url}")
+
+  msg "${GREEN}Installing Symbols Nerd Fonts${NOFORMAT}"
+
+  curl --silent --show-error --location --remote-name "${url}"
+  unzip "${zipfile}" SymbolsNerdFontMono-Regular.ttf SymbolsNerdFont-Regular.ttf
+  needroot mkdir -p /usr/local/share/fonts/symbols-nf
+  needroot mv *.ttf /usr/local/share/fonts/symbols-nf"${url}"
+  unzip "${zipfile}"
+  needroot mkdir -p "${fontdir}"
+  needroot mv ./*.ttf "${fontdir}"
+  needroot fc-cache
+  rm "${zipfile}"
+}
+
 function install_kitty {
   msg "${GREEN}Installing kitty${NOFORMAT}"
   curl -LO https://sw.kovidgoyal.net/kitty/installer.sh
@@ -151,6 +170,7 @@ function install_kitty {
 
   mkdir -p ~/.terminfo/x
   cp ~/.local/kitty.app/share/terminfo/x/xterm-kitty ~/.terminfo/x/
+  install_nf_symbols
 }
 
 function install_atuin {
