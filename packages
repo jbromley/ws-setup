@@ -85,6 +85,7 @@ qemu-kvm
 qemu-guest-agent
 qemu-system-arm
 qemu-user-static
+rcm
 ripgrep
 rlwrap
 rsync

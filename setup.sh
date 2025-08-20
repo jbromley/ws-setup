@@ -308,9 +308,6 @@ function install_packages {
   needroot add-apt-repository --yes ppa:kicad/kicad-9.0-releases
   needroot apt update
   # needroot apt install --yes kicad
-
-  # Upgrade everything.
-  needroot apt upgrade --yes
 }
 
 function configure_user {
