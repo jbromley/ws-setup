@@ -199,7 +199,9 @@ function install_mise {
 
 function install_packages {
   msg "${GREEN}Installing Ubuntu packages${NOFORMAT}"
-  needroot xargs apt install --yes < ./packages
+
+  needroot debconf-set-selections <<< "wireshark-common wireshark-common/install-setuid boolean true"
+  needroot DEBIAN_FRONTEND=noninteractive xargs apt install --yes < ./packages
 
   # Docker
   for pkg in docker.io docker-doc docker-compose docker-compose-v2 podman-docker containerd runc; do
