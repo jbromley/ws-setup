@@ -198,6 +198,8 @@ function install_mise_runtimes {
   local runtimes
 
   info "Installing mise runtimes"
+  # shellcheck source=/dev/null
+  source <("${HOME}/.local/bin/mise" activate bash)
   runtimes=$(cat ./runtimes)
   for runtime in ${runtimes}; do
     plugin=${runtime//@[0-9\.]*/}
@@ -231,6 +233,8 @@ function install_lsps {
   local lsp
   local type
 
+  # shellcheck source=/dev/null
+  source <("${HOME}/.local/bin/mise" activate bash)
   while read -r line; do
     read -r -a fields <<< "$line"
     lsp="${fields[0]}"
@@ -334,8 +338,6 @@ install_yazi https://github.com/sxyazi/yazi/releases/download/v25.5.31/yazi-x86_
 install_kitty
 install_atuin
 install_mise
-# shellcheck source=/dev/null
-source <("${HOME}/.local/bin/mise" activate bash)
 install_mise_runtimes
 install_lsps
 configure_user jay
