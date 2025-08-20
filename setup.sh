@@ -283,6 +283,7 @@ function install_packages {
   msg "${GREEN}Installing Ubuntu packages${NOFORMAT}"
 
   needroot DEBIAN_FRONTEND=noninteractive apt update
+  needroot DEBIAN_FRONTEND=noninteractive apt upgrade
   needroot debconf-set-selections <<< "wireshark-common wireshark-common/install-setuid boolean true"
   needroot DEBIAN_FRONTEND=noninteractive xargs apt install --yes < ./packages
 
