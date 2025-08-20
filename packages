@@ -12,7 +12,6 @@ binfmt-support
 bison
 bridge-utils
 bzip2
-cgdb
 ca-certificates
 cheese
 clang
@@ -54,7 +53,6 @@ gdb
 gdbserver
 gitk
 git-lfs
-global
 gnome-tweaks
 gnupg
 gnuplot
@@ -86,7 +84,6 @@ qemu-user-static
 ripgrep
 rlwrap
 rsync
-scdoc
 shellcheck
 silversearcher-ag
 simplescreenrecorder
@@ -104,7 +101,6 @@ texlive-fonts-recommended
 transmission
 tree
 unar
-units
 uuid-dev
 valgrind
 virt-manager
@@ -115,4 +111,3 @@ xz-utils
 zlib1g
 zlib1g-dev
 zsh
-
