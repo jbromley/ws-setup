@@ -39,6 +39,13 @@ ffmpegthumbnailer
 findutils
 flashrom
 flex
+fonts-firacode
+fonts-hack
+fonts-inconsolata
+fonts-jetbrains-mono
+fonts-league-mono
+fonts-monofur
+fonts-monoid
 fop
 freeglut3-dev
 gawk
