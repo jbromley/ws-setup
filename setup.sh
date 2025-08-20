@@ -188,17 +188,17 @@ function install_atuin {
 }
 
 function install_mise {
+  info "${GREEN}Installing mise${NOFORMAT}"
+  curl https://mise.run | sh
+}
+
+function install_mise_runtimes {
   local mise="${HOME}/.local/bin/mise"
   local core_plugins="erlang elixir node rust"
   local runtimes
+
+  info "Installing mise runtimes"
   runtimes=$(cat ./runtimes)
-
-  info "${GREEN}Installing mise${NOFORMAT}"
-
-  curl https://mise.run | sh
-  # shellcheck source=/dev/null
-  source <(${mise} activate bash)
-
   for runtime in ${runtimes}; do
     plugin=${runtime//@[0-9\.]*/}
     # shellcheck disable=SC2076
@@ -334,5 +334,8 @@ install_yazi https://github.com/sxyazi/yazi/releases/download/v25.5.31/yazi-x86_
 install_kitty
 install_atuin
 install_mise
+# shellcheck source=/dev/null
+source <("${HOME}/.local/bin/mise" activate bash)
+install_mise_runtimes
 install_lsps
 configure_user jay
