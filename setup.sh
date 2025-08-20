@@ -243,7 +243,7 @@ mkdir ~/.local/bin
 
 install_dotfiles git@github.com:jbromley/dotfiles.git ~/.dotfiles
 install_deb https://github.com/sharkdp/bat/releases/download/v0.25.0/bat_0.25.0_amd64.deb
-~/.local/bin/bat cache --build
+bat cache --build
 install_deb https://github.com/ajeetdsouza/zoxide/releases/download/v0.9.8/zoxide_0.9.8-1_amd64.deb
 install_deb https://github.com/helix-editor/helix/releases/download/25.07.1/helix_25.7.1-1_amd64.deb
 install_archive starship https://github.com/starship/starship/releases/download/v1.23.0/starship-x86_64-unknown-linux-gnu.tar.gz
