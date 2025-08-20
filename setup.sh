@@ -283,7 +283,7 @@ function install_packages {
   msg "${GREEN}Installing Ubuntu packages${NOFORMAT}"
 
   needroot DEBIAN_FRONTEND=noninteractive apt update
-  needroot DEBIAN_FRONTEND=noninteractive apt upgrade
+  needroot DEBIAN_FRONTEND=noninteractive apt --yes upgrade
   needroot debconf-set-selections <<< "wireshark-common wireshark-common/install-setuid boolean true"
   needroot DEBIAN_FRONTEND=noninteractive xargs apt install --yes < ./packages
 
@@ -300,8 +300,7 @@ function install_packages {
     "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.asc] https://download.docker.com/linux/ubuntu \
     $(. /etc/os-release && echo "${UBUNTU_CODENAME:-$VERSION_CODENAME}") stable" | \
     needroot tee /etc/apt/sources.list.d/docker.list > /dev/null
-  needroot apt-get update
-
+  needroot apt update
   needroot apt install --yes docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
 
   # Kicad
