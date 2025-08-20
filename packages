@@ -11,6 +11,7 @@ bear
 binfmt-support
 bison
 bridge-utils
+build-essential
 bzip2
 ca-certificates
 cheese
@@ -22,6 +23,7 @@ clang-tools
 cmake
 cmake-curses-gui
 colortest
+curl
 ddd
 dia
 diceware
@@ -51,6 +53,7 @@ gawk
 gcc-avr
 gdb
 gdbserver
+git
 gitk
 git-lfs
 gnome-tweaks
@@ -77,6 +80,7 @@ p7zip-full
 pandoc
 pgformatter
 pkgconf
+python3-pip
 qemu-kvm
 qemu-guest-agent
 qemu-system-arm

@@ -91,6 +91,11 @@ function install_dotfiles {
   local dotfiles
   dotfiles=$(cat ./dotfiles)
 
+  if [ -d "${dotfiles}" ]; then
+    warning "${dotfiles} already installed"
+    return
+  fi
+
   info "Installing ${repo} to ${dotfiles_dir}"
   git clone "${repo}" "${dotfiles_dir}"
   pushd "${dotfiles_dir}"
@@ -277,6 +282,7 @@ function install_lsps {
 function install_packages {
   msg "${GREEN}Installing Ubuntu packages${NOFORMAT}"
 
+  needroot apt update
   needroot debconf-set-selections <<< "wireshark-common wireshark-common/install-setuid boolean true"
   needroot DEBIAN_FRONTEND=noninteractive xargs apt install --yes < ./packages
 
@@ -300,7 +306,7 @@ function install_packages {
   # Kicad
   needroot add-apt-repository --yes ppa:kicad/kicad-9.0-releases
   needroot apt update
-  needroot apt install --yes kicad
+  # needroot apt install --yes kicad
 
   # Upgrade everything.
   needroot apt upgrade --yes
@@ -315,9 +321,9 @@ function configure_user {
 }
 
 # Main entry point
-needroot apt update
-needroot apt install --yes git rcm curl build-essential
-mkdir ~/.local/bin
+install_packages
+
+mkdir "${HOME}/.local/bin"
 
 install_dotfiles git@github.com:jbromley/dotfiles.git ~/.dotfiles
 install_deb https://github.com/sharkdp/bat/releases/download/v0.25.0/bat_0.25.0_amd64.deb
@@ -331,5 +337,5 @@ install_yazi https://github.com/sxyazi/yazi/releases/download/v25.5.31/yazi-x86_
 install_kitty
 install_atuin
 install_mise
-install_packages
+install_lsps
 configure_user jay
