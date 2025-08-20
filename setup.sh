@@ -237,6 +237,8 @@ function install_lsps {
     read -r -a fields <<< "$line"
     lsp="${fields[0]}"
     type="${fields[1]}"
+    # shellcheck source=/dev/null
+    source <("${HOME}/.local/bin/mise" activate bash)
     # shellcheck disable=SC2076
     if [[ ! " tar gzip " =~ " ${type} " ]]; then
       info "Installing ${lsp} from ${type}"
