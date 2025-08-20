@@ -1,0 +1,14 @@
+arduino-language-server tar    https://github.com/arduino/arduino-language-server/releases/download/0.7.7/arduino-language-server_0.7.7_Linux_64bit.tar.gz
+bash-language-server    npm
+clangd                  apt
+neocmakelsp             cargo
+dot-language-server     npm
+elixir-ls               mise
+elp                     tar    https://github.com/WhatsApp/erlang-language-platform/releases/download/2025-07-21/elp-linux-x86_64-unknown-linux-gnu-otp-26.2.tar.gz
+vscode-json-language-service npm
+marksman                binary https://github.com/artempyanykh/marksman/releases/download/2024-12-18/marksman-linux-x64 marksman-linux-x64
+ruff                    pip
+racket-langserver       raco
+rust-analyzer           gzip   https://github.com/rust-lang/rust-analyzer/releases/latest/download/rust-analyzer-x86_64-unknown-linux-gnu.gz
+taplo                   gzip   https://github.com/tamasfe/taplo/releases/latest/download/taplo-linux-x86_64.gz
+yaml-language-server    npm

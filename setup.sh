@@ -3,7 +3,7 @@
 set -Eeuo pipefail
 trap cleanup SIGINT SIGTERM ERR EXIT
 
-usage() {
+function usage() {
   cat << EOF # remove the space between << and EOF, this is due to web plugin issue
 Usage: $(basename "${BASH_SOURCE[0]}") [-h] [-v] [-f] -p param_value arg1 [arg2...]
 
@@ -17,12 +17,12 @@ EOF
   exit
 }
 
-cleanup() {
+function cleanup() {
   trap - SIGINT SIGTERM ERR EXIT
   # script cleanup here
 }
 
-setup_colors() {
+function setup_colors() {
   if [[ -t 2 ]] && [[ -z "${NO_COLOR-}" ]] && [[ "${TERM-}" != "dumb" ]]; then
     NOFORMAT='\033[0m' RED='\033[0;31m' GREEN='\033[0;32m' ORANGE='\033[0;33m' BLUE='\033[0;34m' PURPLE='\033[0;35m' CYAN='\033[0;36m' YELLOW='\033[1;33m'
   else
@@ -31,18 +31,26 @@ setup_colors() {
   fi
 }
 
-msg() {
+function msg() {
   echo >&2 -e "${1-}"
 }
 
-die() {
+function info() {
+  msg "${GREEN}${1-}${NOFORMAT}"
+}
+
+function warning() {
+  msg "${YELLOW}${1-}${NOFORMAT}"
+}
+
+function die() {
   local msg=$1
   local code=${2-1} # default exit status 1
-  msg "$msg"
+  msg "${RED}${msg}${NOFORMAT}"
   exit "$code"
 }
 
-parse_params() {
+function parse_params() {
   # default values of variables set from params
   while :; do
     case "${1-}" in
@@ -64,8 +72,7 @@ setup_colors
 # The script will need sudo, get authorization now.
 sudo -k
 if ! sudo -v; then
-  echo "sudo authentication required." >&2
-  exit 1
+  die "sudo authentication required." 1
 fi
 
 # Keep the sudo timestamp fresh until this script exits.
@@ -84,7 +91,7 @@ function install_dotfiles {
   local dotfiles
   dotfiles=$(cat ./dotfiles)
 
-  msg "${GREEN}Installing ${repo} to ${dotfiles_dir}${NOFORMAT}"
+  info "Installing ${repo} to ${dotfiles_dir}"
   git clone "${repo}" "${dotfiles_dir}"
   pushd "${dotfiles_dir}"
   for dotfile in ${dotfiles}; do
@@ -102,23 +109,23 @@ function install_deb {
   local name
   name=$(basename "${url}")
 
-  msg "${GREEN}Installing ${name} from ${url}${NOFORMAT}"
+  info "Installing ${name} from ${url}"
   curl --silent --show-error --location --remote-name "${url}"
   needroot dpkg --install "${name}"
   rm "${name}"
 }
 
-function install_archive {
+function install_tar {
   local executable="$1"
   local url="$2"
-  local name
-  name=$(basename "${url}")
+  local tarfile
+  tarfile=$(basename "${url}")
 
-  msg "${GREEN}Installing ${executable} from ${url}${NOFORMAT}"
+  info "Installing ${executable} from ${url}"
   curl --silent --show-error --location --remote-name "${url}"
-  tar -xf "${name}" "${executable}"
+  tar -xf "${tarfile}" "${executable}"
   mv "${executable}" ~/.local/bin
-  rm "${name}"
+  rm "${tarfile}"
 }
 
 function install_yazi {
@@ -128,7 +135,7 @@ function install_yazi {
   zipfile=$(basename "${url}")
   zipdir=${zipfile%.*}
 
-  msg "${GREEN}Installing yazi from ${url}${NOFORMAT}"
+  info "Installing yazi from ${url}"
   curl --silent --show-error --location --remote-name "${url}"
   unzip -qq "${zipfile}"
   mv "${zipdir}"/ya{,zi} ~/.local/bin/
@@ -142,7 +149,7 @@ function install_nf_symbols {
   local fontdir=/usr/local/share/fonts/symbol-nf
   zipfile=$(basename "${url}")
 
-  msg "${GREEN}Installing Symbols Nerd Fonts${NOFORMAT}"
+  info "Installing Symbols Nerd Fonts"
 
   curl --silent --show-error --location --remote-name "${url}"
   unzip "${zipfile}" SymbolsNerdFontMono-Regular.ttf SymbolsNerdFont-Regular.ttf
@@ -153,7 +160,7 @@ function install_nf_symbols {
 }
 
 function install_kitty {
-  msg "${GREEN}Installing kitty${NOFORMAT}"
+  info "Installing kitty"
   curl -LO https://sw.kovidgoyal.net/kitty/installer.sh
   sh ./installer.sh launch=n
 
@@ -171,7 +178,7 @@ function install_kitty {
 }
 
 function install_atuin {
-  msg "${GREEN}Installing atuin${NOFORMAT}"
+  info "Installing atuin"
   bash <(curl --proto '=https' --tlsv1.2 -sSf https://setup.atuin.sh)
 }
 
@@ -181,7 +188,7 @@ function install_mise {
   local runtimes
   runtimes=$(cat ./runtimes)
 
-  msg "${GREEN}Installing mise${NOFORMAT}"
+  info "${GREEN}Installing mise${NOFORMAT}"
 
   curl https://mise.run | sh
   # shellcheck source=/dev/null
@@ -195,6 +202,76 @@ function install_mise {
     fi
     ${mise} use --global "${runtime}"
   done
+}
+
+function install_gzip {
+  local executable="$1"
+  local url="$2"
+  local gzipfile
+  local unzipped_file
+
+  echo "${GREEN}Installing ${executable} from ${url}${NOFORMAT}"
+  curl --silent --show-error --location --remote-name "${url}"
+  gzipfile=$(basename "${url}")
+  unzipped_file="${gzipfile%.*}"
+  gunzip -q "${gzipfile}"
+  if [[ "${unzipped_file}" != "${executable}" ]]; then
+    mv "${unzipped_file}" "${executable}"
+  fi
+  chmod +x "${executable}"
+  mv "${executable}" "${HOME}/.local/bin"
+}
+
+function install_lsps {
+  local lsp
+  local type
+
+  while read -r line; do
+    read -r -a fields <<< "$line"
+    lsp="${fields[0]}"
+    type="${fields[1]}"
+    # shellcheck disable=SC2076
+    if [[ ! " tar gzip " =~ " ${type} " ]]; then
+      info "Installing ${lsp} from ${type}"
+    fi
+    case "${type}" in
+      tar)
+        install_tar "${lsp}" "${fields[2]}"
+        ;;
+      npm)
+        npm install --global "${lsp}"
+        ;;
+      apt)
+        needroot apt install --yes "${lsp}"
+        ;;
+      cargo)
+        cargo install "${lsp}"
+        ;;
+      mise)
+        mise use --global "${lsp}@latest'"
+        ;;
+      binary)
+        curl --silent --show-error --location --remote-name "${fields[2]}"
+        if [[ "${lsp}" != "${fields[3]}" ]]; then
+          mv "${fields[3]}" "${lsp}"
+        fi
+        chmod +x "${lsp}"
+        mv "${lsp}" "${HOME}/.local/bin"
+        ;;
+      pip)
+        pip3 install --user "${lsp}"
+        ;;
+      raco)
+        raco pkg install "${lsp}"
+        ;;
+      gzip)
+        install_gzip "${lsp}" "${fields[2]}"
+        ;;
+      *)
+        warning "Unknown type ${type}, not installing ${lsp}"
+        ;;
+    esac
+  done < language-servers
 }
 
 function install_packages {
@@ -247,9 +324,9 @@ install_deb https://github.com/sharkdp/bat/releases/download/v0.25.0/bat_0.25.0_
 bat cache --build
 install_deb https://github.com/ajeetdsouza/zoxide/releases/download/v0.9.8/zoxide_0.9.8-1_amd64.deb
 install_deb https://github.com/helix-editor/helix/releases/download/25.07.1/helix_25.7.1-1_amd64.deb
-install_archive starship https://github.com/starship/starship/releases/download/v1.23.0/starship-x86_64-unknown-linux-gnu.tar.gz
-install_archive lazygit https://github.com/jesseduffield/lazygit/releases/download/v0.54.2/lazygit_0.54.2_linux_x86_64.tar.gz
-install_archive fzf https://github.com/junegunn/fzf/releases/download/v0.65.1/fzf-0.65.1-linux_amd64.tar.gz
+install_tar starship https://github.com/starship/starship/releases/download/v1.23.0/starship-x86_64-unknown-linux-gnu.tar.gz
+install_tar lazygit https://github.com/jesseduffield/lazygit/releases/download/v0.54.2/lazygit_0.54.2_linux_x86_64.tar.gz
+install_tar fzf https://github.com/junegunn/fzf/releases/download/v0.65.1/fzf-0.65.1-linux_amd64.tar.gz
 install_yazi https://github.com/sxyazi/yazi/releases/download/v25.5.31/yazi-x86_64-unknown-linux-gnu.zip
 install_kitty
 install_atuin
