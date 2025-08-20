@@ -123,17 +123,17 @@ function install_archive {
 
 function install_yazi {
   local url="$1"
-  local name
+  local zipfile
   local zipdir
-  name=$(basename "${url}")
-  zipdir=${name%.*}
+  zipfile=$(basename "${url}")
+  zipdir=${zipfile%.*}
 
   msg "${GREEN}Installing yazi from ${url}${NOFORMAT}"
   curl --silent --show-error --location --remote-name "${url}"
-  unzip -qq "${name}"
+  unzip -qq "${zipfile}"
   mv "${zipdir}"/ya{,zi} ~/.local/bin/
   mv "${zipdir}"/completions/{_ya,_yazi} ~/.zsh/
-  rm -rf "${zipdir}"
+  rm -rf "${zipdir}" "${zipfile}"
 }
 
 function install_nf_symbols {
@@ -146,11 +146,8 @@ function install_nf_symbols {
 
   curl --silent --show-error --location --remote-name "${url}"
   unzip "${zipfile}" SymbolsNerdFontMono-Regular.ttf SymbolsNerdFont-Regular.ttf
-  needroot mkdir -p /usr/local/share/fonts/symbols-nf
-  needroot mv *.ttf /usr/local/share/fonts/symbols-nf"${url}"
-  unzip "${zipfile}"
   needroot mkdir -p "${fontdir}"
-  needroot mv ./*.ttf "${fontdir}"
+  needroot mv SymbolsNerdFontMono-Regular.ttf SymbolsNerdFont-Regular.ttf "${fontdir}"
   needroot fc-cache
   rm "${zipfile}"
 }
