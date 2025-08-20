@@ -233,8 +233,6 @@ function install_lsps {
   local lsp
   local type
 
-  # shellcheck source=/dev/null
-  source <("${HOME}/.local/bin/mise" activate bash)
   while read -r line; do
     read -r -a fields <<< "$line"
     lsp="${fields[0]}"
@@ -256,9 +254,9 @@ function install_lsps {
       cargo)
         cargo install "${lsp}"
         ;;
-      mise)
-        mise use --global "${lsp}@latest'"
-        ;;
+      # mise)
+      #   mise use --global "${lsp}@latest'"
+      #   ;;
       binary)
         curl --silent --show-error --location --remote-name "${fields[2]}"
         if [[ "${lsp}" != "${fields[3]}" ]]; then
