@@ -224,6 +224,9 @@ function install_packages {
   needroot add-apt-repository --yes ppa:kicad/kicad-9.0-releases
   needroot apt update
   needroot apt install --yes kicad
+
+  # Upgrade everything.
+  needroot apt upgrade --yes
 }
 
 function configure_user {
@@ -236,7 +239,6 @@ function configure_user {
 
 # Main entry point
 needroot apt update
-needroot apt upgrade --yes
 needroot apt install --yes git rcm curl build-essential
 mkdir ~/.local/bin
 
