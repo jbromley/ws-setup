@@ -233,7 +233,7 @@ function configure_user {
   local user="$1"
 
   msg "${GREEN}Configuring user ${user}${NOFORMAT}"
-  needroot usermod --append --groups kvm,tcpdump,wireshark,libvirt,docker
+  needroot usermod --append --groups kvm,tcpdump,wireshark,libvirt,docker "${user}"
   chsh -s /usr/bin/zsh "${user}"
 }
 
