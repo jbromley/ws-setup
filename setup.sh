@@ -197,7 +197,7 @@ function install_mise {
 
   curl https://mise.run | sh
   # shellcheck source=/dev/null
-  source <(${mise} activate)
+  source <(${mise} activate bash)
 
   for runtime in ${runtimes}; do
     plugin=${runtime//@[0-9\.]*/}
