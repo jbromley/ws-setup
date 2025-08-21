@@ -128,7 +128,7 @@ function install_tar {
 
   info "Installing ${executable} from ${url}"
   curl --silent --show-error --location --remote-name "${url}"
-  tar -xf "${tarfile}" "${executable}"
+  tar --no-anchored --transform='s#.*/##' -xf "${tarfile}" "${executable}"
   mv "${executable}" ~/.local/bin
   rm "${tarfile}"
 }
