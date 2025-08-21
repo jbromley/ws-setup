@@ -267,9 +267,6 @@ function install_lsps {
         chmod +x "${lsp}"
         mv "${lsp}" "${HOME}/.local/bin"
         ;;
-      pip)
-        pip3 install --user "${lsp}"
-        ;;
       raco)
         raco pkg install "${lsp}"
         ;;
