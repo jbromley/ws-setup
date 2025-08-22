@@ -283,31 +283,24 @@ function install_lsps {
 function install_packages {
   msg "${GREEN}Installing Ubuntu packages${NOFORMAT}"
 
-  needroot DEBIAN_FRONTEND=noninteractive apt update
-  needroot DEBIAN_FRONTEND=noninteractive apt --yes upgrade
-  needroot debconf-set-selections <<< "wireshark-common wireshark-common/install-setuid boolean true"
-  needroot DEBIAN_FRONTEND=noninteractive xargs apt install --yes < ./packages
-
+  # Install kicad, docker, and fish repos
+  # Fish
+  needroot add-apt-repository --yes ppa:fish-shell/release-4
+  # Kicad
+  needroot add-apt-repository --yes ppa:kicad/kicad-9.0-releases
   # Docker
-  for pkg in docker.io docker-doc docker-compose docker-compose-v2 podman-docker containerd runc; do
-    needroot apt remove $pkg
-  done
-
   needroot install -m 0755 -d /etc/apt/keyrings
   needroot curl -fsSL https://download.docker.com/linux/ubuntu/gpg -o /etc/apt/keyrings/docker.asc
   needroot chmod a+r /etc/apt/keyrings/docker.asc
-
   echo \
     "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.asc] https://download.docker.com/linux/ubuntu \
     $(. /etc/os-release && echo "${UBUNTU_CODENAME:-$VERSION_CODENAME}") stable" | \
     needroot tee /etc/apt/sources.list.d/docker.list > /dev/null
-  needroot apt update
-  needroot apt install --yes docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
 
-  # Kicad
-  needroot add-apt-repository --yes ppa:kicad/kicad-9.0-releases
-  needroot apt update
-  # needroot apt install --yes kicad
+  needroot DEBIAN_FRONTEND=noninteractive apt update
+  needroot DEBIAN_FRONTEND=noninteractive apt --yes upgrade
+  needroot debconf-set-selections <<< "wireshark-common wireshark-common/install-setuid boolean true"
+  needroot DEBIAN_FRONTEND=noninteractive xargs apt install --yes < ./packages
 }
 
 function configure_user {
@@ -315,7 +308,12 @@ function configure_user {
 
   msg "${GREEN}Configuring user ${user}${NOFORMAT}"
   needroot usermod --append --groups kvm,tcpdump,wireshark,libvirt,docker "${user}"
-  chsh -s /usr/bin/zsh "${user}"
+
+  # Set up user shell
+  needroot chsh -s /bin/fish "${user}"
+  fish -c "curl -sL https://raw.githubusercontent.com/jorgebucaran/fisher/main/functions/fisher.fish | source"
+  fish -c "fisher install jorgebucaran/fisher"
+  fish -c "fisher install IlanCosman/tide@v6"
 }
 
 # Main entry point

@@ -23,11 +23,16 @@ clang-tools
 cmake
 cmake-curses-gui
 colortest
+containerd.io
 curl
 ddd
 dia
 diceware
 diffutils
+docker-ce
+docker-ce-cli
+docker-buildx-plugin
+docker-compose-plugin
 dos2unix
 dosfstools
 doxygen
@@ -38,6 +43,7 @@ exfat-fuse
 ffmpeg
 ffmpegthumbnailer
 findutils
+fish
 flashrom
 flex
 fonts-firacode
@@ -115,4 +121,3 @@ xsltproc
 xz-utils
 zlib1g
 zlib1g-dev
-zsh

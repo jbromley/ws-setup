@@ -2,6 +2,7 @@ aliases
 config/atuin
 config/bat
 config/emacs
+config/fish
 config/helix
 config/kitty
 config/nvim
@@ -11,6 +12,3 @@ dircolors
 gitignore
 rcrc
 sbcl{_completions,rc}
-zsh
-zshenv
-zshrc
