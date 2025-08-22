@@ -24,7 +24,6 @@ cmake
 cmake-curses-gui
 colortest
 containerd.io
-curl
 ddd
 dia
 diceware
