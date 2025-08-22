@@ -268,7 +268,7 @@ function install_lsps {
         mv "${lsp}" "${HOME}/.local/bin"
         ;;
       raco)
-        raco pkg install "${lsp}"
+        raco pkg install --batch --deps search-auto --update-deps "${lsp}"
         ;;
       gzip)
         install_gzip "${lsp}" "${fields[2]}"
