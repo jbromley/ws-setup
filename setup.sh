@@ -283,6 +283,9 @@ function install_lsps {
 function install_packages {
   msg "${GREEN}Installing Ubuntu packages${NOFORMAT}"
 
+  # Need curl
+  sudo apt install --yes curl
+
   # Install kicad, docker, and fish repos
   # Fish
   needroot add-apt-repository --yes ppa:fish-shell/release-4
@@ -317,10 +320,9 @@ function configure_user {
 }
 
 # Main entry point
-install_packages
 
 mkdir "${HOME}/.local/bin"
-
+install_packages
 install_dotfiles git@github.com:jbromley/dotfiles.git ~/.dotfiles
 install_deb https://github.com/sharkdp/bat/releases/download/v0.25.0/bat_0.25.0_amd64.deb
 bat cache --build
