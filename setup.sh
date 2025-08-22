@@ -314,9 +314,7 @@ function configure_user {
 
   # Set up user shell
   needroot chsh -s /bin/fish "${user}"
-  fish -c "curl -sL https://raw.githubusercontent.com/jorgebucaran/fisher/main/functions/fisher.fish | source"
-  fish -c "fisher install jorgebucaran/fisher"
-  fish -c "fisher install IlanCosman/tide@v6"
+  fish -C ./fish-setup.sh
 }
 
 # Main entry point
