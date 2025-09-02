@@ -2,11 +2,8 @@ apt-file
 apt-src
 apt-utils
 arp-scan
-asciidoctor
 autoconf
 automake
-avrdude
-avr-libc
 bear
 binfmt-support
 bison
@@ -21,11 +18,8 @@ clang-format
 clang-tidy
 clang-tools
 cmake
-cmake-curses-gui
 colortest
 containerd.io
-ddd
-dia
 diceware
 diffutils
 docker-ce
@@ -43,7 +37,6 @@ ffmpeg
 ffmpegthumbnailer
 findutils
 fish
-flashrom
 flex
 fonts-firacode
 fonts-hack
@@ -55,13 +48,11 @@ fonts-monoid
 fop
 freeglut3-dev
 gawk
-gcc-avr
 gdb
 gdbserver
 git
 gitk
 git-lfs
-gnome-tweaks
 gnupg
 gnuplot
 graphviz
@@ -71,11 +62,9 @@ gstreamer1.0-plugins-ugly
 gstreamer1.0-qt5
 htop
 iputils-ping
-ipython3
 jq
+libstdc++-14-dev
 links2
-lldb
-lynx
 m4
 mawk
 mesa-utils
@@ -95,6 +84,7 @@ ripgrep
 rlwrap
 rsync
 shellcheck
+shfmt
 silversearcher-ag
 simplescreenrecorder
 sloccount
