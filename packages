@@ -68,6 +68,10 @@ links2
 m4
 mawk
 mesa-utils
+mime-construct
+mpv
+network-manager-openconnect
+network-manager-openconnect-gnome
 nmap
 openssl
 p7zip-full
@@ -75,6 +79,10 @@ pandoc
 pgformatter
 pkgconf
 python3-pip
+python3-pylsp
+python3-pylsp-black
+python3-pylsp-pyflakes
+python3-pylsp-rope
 qemu-kvm
 qemu-guest-agent
 qemu-system-arm
@@ -86,7 +94,6 @@ rsync
 shellcheck
 shfmt
 silversearcher-ag
-simplescreenrecorder
 sloccount
 snmp
 snmp-mibs-downloader
@@ -104,6 +111,7 @@ unar
 uuid-dev
 valgrind
 virt-manager
+vlc
 wireshark
 xclip
 xsltproc
