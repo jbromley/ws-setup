@@ -120,17 +120,30 @@ function install_deb {
   rm "${name}"
 }
 
-function install_tar {
+function install_archive {
   local executable="$1"
   local url="$2"
-  local tarfile
-  tarfile=$(basename "${url}")
+  local archive_file
+  local archive_ext
+  archive_file=$(basename "${url}")
+  archive_ext=${archive_file#*.}
 
   info "Installing ${executable} from ${url}"
   curl --silent --show-error --location --remote-name "${url}"
-  tar --no-anchored --transform='s#.*/##' -xf "${tarfile}" "${executable}"
+  case "${archive_ext}" in
+    tar.gz)
+      tar --no-anchored --transform='s#.*/##' -xf "${archive_file}" "${executable}"
+      ;;
+    zip)
+      unzip -qq "${archive_file}"
+      ;;
+    *)
+      echo "Don't know how to handle ${archive_ext} files."
+      exit 1
+      ;;
+  esac
   mv "${executable}" ~/.local/bin
-  rm "${tarfile}"
+  rm "${archive_file}"
 }
 
 function install_yazi {
@@ -245,7 +258,7 @@ function install_lsps {
     fi
     case "${type}" in
       tar)
-        install_tar "${lsp}" "${fields[2]}"
+        install_archive "${lsp}" "${fields[2]}"
         ;;
       npm)
         npm install --global "${lsp}"
@@ -326,9 +339,10 @@ install_deb https://github.com/sharkdp/bat/releases/download/v0.25.0/bat_0.25.0_
 bat cache --build
 install_deb https://github.com/ajeetdsouza/zoxide/releases/download/v0.9.8/zoxide_0.9.8-1_amd64.deb
 install_deb https://github.com/helix-editor/helix/releases/download/25.07.1/helix_25.7.1-1_amd64.deb
-install_tar starship https://github.com/starship/starship/releases/download/v1.23.0/starship-x86_64-unknown-linux-gnu.tar.gz
-install_tar lazygit https://github.com/jesseduffield/lazygit/releases/download/v0.54.2/lazygit_0.54.2_linux_x86_64.tar.gz
-install_tar fzf https://github.com/junegunn/fzf/releases/download/v0.65.1/fzf-0.65.1-linux_amd64.tar.gz
+install_archive starship https://github.com/starship/starship/releases/download/v1.23.0/starship-x86_64-unknown-linux-gnu.tar.gz
+install_archive lazygit https://github.com/jesseduffield/lazygit/releases/download/v0.54.2/lazygit_0.54.2_linux_x86_64.tar.gz
+install_archive fzf https://github.com/junegunn/fzf/releases/download/v0.65.1/fzf-0.65.1-linux_amd64.tar.gz
+install_archive dprint https://github.com/dprint/dprint/releases/download/0.50.1/dprint-x86_64-unknown-linux-gnu.zip
 install_yazi https://github.com/sxyazi/yazi/releases/download/v25.5.31/yazi-x86_64-unknown-linux-gnu.zip
 install_kitty
 install_atuin
