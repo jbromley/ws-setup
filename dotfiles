@@ -9,6 +9,7 @@ config/nvim
 config/tmux
 config/yazi
 dircolors
+dprint.json
 gitignore
 rcrc
 sbcl{_completions,rc}
