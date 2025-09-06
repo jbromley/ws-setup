@@ -81,7 +81,6 @@ pkgconf
 python3-pip
 python3-pylsp
 python3-pylsp-black
-python3-pylsp-pyflakes
 python3-pylsp-rope
 qemu-kvm
 qemu-guest-agent
