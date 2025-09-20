@@ -7,6 +7,7 @@ automake
 bear
 binfmt-support
 bison
+blueman
 bridge-utils
 build-essential
 bzip2
@@ -33,6 +34,7 @@ doxygen-latex
 elfutils
 enscript
 exfat-fuse
+feh
 ffmpeg
 ffmpegthumbnailer
 findutils
@@ -61,6 +63,11 @@ gstreamer1.0-plugins-bad
 gstreamer1.0-plugins-ugly
 gstreamer1.0-qt5
 htop
+i3
+i3blocks
+i3lock
+i3status
+i3wm
 iputils-ping
 jq
 libstdc++-14-dev
@@ -78,6 +85,9 @@ p7zip-full
 pandoc
 pgformatter
 pkgconf
+playerctl
+polybar
+pulseaudio-utils
 python3-pip
 python3-pylsp
 python3-pylsp-black
@@ -89,6 +99,7 @@ qemu-user-static
 rcm
 ripgrep
 rlwrap
+rofi
 rsync
 shellcheck
 shfmt
