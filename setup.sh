@@ -146,6 +146,21 @@ function install_archive {
   rm "${archive_file}"
 }
 
+function install_tar_to_dir {
+  local lsp="$1"
+  local url="$2"
+  local target_dir="$3"
+  local tar_file
+  tar_file=$(basename "${url}")
+  mkdir -p "${HOME}/${target_dir}"
+
+  info "Installing ${lsp} to ${target_dir} from ${url}"
+  curl --silent --show-error --location --remote-name "${url}"
+  tar -C "${HOME}/${target_dir}" -xf "${tar_file}"
+
+  rm "${tar_file}"
+}
+
 function install_yazi {
   local url="$1"
   local zipfile
@@ -179,19 +194,20 @@ function install_nf_symbols {
 
 function install_kitty {
   info "Installing kitty"
+  mkdir -p "${HOME}/.opt"
   curl -LO https://sw.kovidgoyal.net/kitty/installer.sh
-  sh ./installer.sh launch=n
+  sh ./installer.sh launch=n dest="${HOME}/.opt/"
 
   mkdir -p ~/.local/share/applications
-  ln -sf ~/.local/kitty.app/bin/kitty ~/.local/kitty.app/bin/kitten ~/.local/bin/
-  cp ~/.local/kitty.app/share/applications/kitty.desktop ~/.local/share/applications/
-  cp ~/.local/kitty.app/share/applications/kitty-open.desktop ~/.local/share/applications/
-  sed -i "s|Icon=kitty|Icon=$(readlink -f ~)/.local/kitty.app/share/icons/hicolor/256x256/apps/kitty.png|g" ~/.local/share/applications/kitty*.desktop
-  sed -i "s|Exec=kitty|Exec=$(readlink -f ~)/.local/kitty.app/bin/kitty|g" ~/.local/share/applications/kitty*.desktop
+  ln -sf ~/.opt/kitty.app/bin/kitty ~/.opt/kitty.app/bin/kitten ~/.local/bin/
+  cp ~/.opt/kitty.app/share/applications/kitty.desktop ~/.local/share/applications/
+  cp ~/.opt/kitty.app/share/applications/kitty-open.desktop ~/.local/share/applications/
+  sed -i "s|Icon=kitty|Icon=$(readlink -f ~)/.opt/kitty.app/share/icons/hicolor/256x256/apps/kitty.png|g" ~/.local/share/applications/kitty*.desktop
+  sed -i "s|Exec=kitty|Exec=$(readlink -f ~)/.opt/kitty.app/bin/kitty|g" ~/.local/share/applications/kitty*.desktop
   echo 'kitty.desktop' > ~/.config/xdg-terminals.list
 
   mkdir -p ~/.terminfo/x
-  cp ~/.local/kitty.app/share/terminfo/x/xterm-kitty ~/.terminfo/x/
+  cp ~/.opt/kitty.app/share/terminfo/x/xterm-kitty ~/.terminfo/x/
   install_nf_symbols
 }
 
@@ -248,8 +264,11 @@ function install_lsps {
 
   while read -r line; do
     read -r -a fields <<< "$line"
-    lsp="${fields[0]}"
-    type="${fields[1]}"
+    local lsp="${fields[0]}"
+    local type="${fields[1]}"
+    local url="${fields[2]}"
+    local tar_dir
+
     # shellcheck source=/dev/null
     source <("${HOME}/.local/bin/mise" activate bash)
     # shellcheck disable=SC2076
@@ -258,7 +277,14 @@ function install_lsps {
     fi
     case "${type}" in
       tar)
-        install_archive "${lsp}" "${fields[2]}"
+        install_archive "${lsp}" "${url}"
+        ;;
+      tardir)
+        tar_dir="${fields[3]}"
+        install_tar_to_dir "${lsp}" "${url}" "${tar_dir}"
+        ;;
+      zip)
+        install_archive "${lsp}" "${url}"
         ;;
       npm)
         npm install --global "${lsp}"
