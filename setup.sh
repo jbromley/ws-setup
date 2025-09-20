@@ -203,6 +203,7 @@ function install_kitty {
   mkdir -p ~/.terminfo/x
   cp ~/.opt/kitty.app/share/terminfo/x/xterm-kitty ~/.terminfo/x/
   install_nf_symbols
+  rm installer.sh
 }
 
 function install_atuin {
@@ -260,7 +261,7 @@ function install_lsps {
     read -r -a fields <<< "$line"
     local lsp="${fields[0]}"
     local type="${fields[1]}"
-    local url="${fields[2]}"
+    local url="${fields[2]:-}"
     local tar_dir
 
     # shellcheck source=/dev/null
