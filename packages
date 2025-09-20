@@ -67,7 +67,7 @@ i3
 i3blocks
 i3lock
 i3status
-i3wm
+i3-wm
 iputils-ping
 jq
 libstdc++-14-dev
