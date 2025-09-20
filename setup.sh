@@ -96,6 +96,7 @@ function install_dotfiles {
     return
   fi
 
+  rm -rf "${HOME}/.dotfiles"
   info "Installing ${repo} to ${dotfiles_dir}"
   git clone "${repo}" "${dotfiles_dir}"
   pushd "${dotfiles_dir}"
@@ -103,10 +104,6 @@ function install_dotfiles {
     rcup -v "${dotfile}"
   done
   popd
-
-  git clone https://github.com/zsh-users/zsh-autosuggestions ~/.zsh/zsh-autosuggestions
-  git clone https://github.com/zsh-users/zsh-syntax-highlighting.git ~/.zsh/zsh-syntax-highlighting
-  git clone https://github.com/zsh-users/zsh-completions.git ~/.zsh/zsh-completions
 }
 
 function install_deb {
@@ -130,18 +127,14 @@ function install_archive {
 
   info "Installing ${executable} from ${url}"
   curl --silent --show-error --location --remote-name "${url}"
-  case "${archive_ext}" in
-    tar.gz)
-      tar --no-anchored --transform='s#.*/##' -xf "${archive_file}" "${executable}"
-      ;;
-    zip)
-      unzip -qq "${archive_file}"
-      ;;
-    *)
-      echo "Don't know how to handle ${archive_ext} files."
-      exit 1
-      ;;
-  esac
+  if [[ ${archive_file} =~ \.t?gz$ ]]; then
+    tar --no-anchored --transform='s#.*/##' -xf "${archive_file}" "${executable}"
+  elif [[ ${archive_file} =~ \.zip$ ]]; then
+    unzip -qq "${archive_file}"
+  else
+    echo "Don't know how to handle ${archive_ext} files."
+    exit 1
+  fi
   mv "${executable}" ~/.local/bin
   rm "${archive_file}"
 }
@@ -172,7 +165,8 @@ function install_yazi {
   curl --silent --show-error --location --remote-name "${url}"
   unzip -qq "${zipfile}"
   mv "${zipdir}"/ya{,zi} ~/.local/bin/
-  mv "${zipdir}"/completions/{_ya,_yazi} ~/.zsh/
+  mkdir -p "${HOME}/.config/fish/completions"
+  mv "${zipdir}"/completions/{_ya,_yazi} "${HOME}/.config/fish/completions/"
   rm -rf "${zipdir}" "${zipfile}"
 }
 
@@ -358,7 +352,7 @@ function configure_user {
 
 # Main entry point
 
-mkdir "${HOME}/.local/bin"
+mkdir -p "${HOME}/.local/bin"
 install_packages
 install_dotfiles git@github.com:jbromley/dotfiles.git ~/.dotfiles
 install_deb https://github.com/sharkdp/bat/releases/download/v0.25.0/bat_0.25.0_amd64.deb
@@ -366,7 +360,7 @@ bat cache --build
 install_deb https://github.com/ajeetdsouza/zoxide/releases/download/v0.9.8/zoxide_0.9.8-1_amd64.deb
 install_deb https://github.com/helix-editor/helix/releases/download/25.07.1/helix_25.7.1-1_amd64.deb
 install_archive starship https://github.com/starship/starship/releases/download/v1.23.0/starship-x86_64-unknown-linux-gnu.tar.gz
-install_archive lazygit https://github.com/jesseduffield/lazygit/releases/download/v0.54.2/lazygit_0.54.2_linux_x86_64.tar.gz
+install_archive lazygit https://github.com/jesseduffield/lazygit/releases/download/v0.55.1/lazygit_0.55.1_linux_x86_64.tar.gz
 install_archive fzf https://github.com/junegunn/fzf/releases/download/v0.65.1/fzf-0.65.1-linux_amd64.tar.gz
 install_archive dprint https://github.com/dprint/dprint/releases/download/0.50.1/dprint-x86_64-unknown-linux-gnu.zip
 install_yazi https://github.com/sxyazi/yazi/releases/download/v25.5.31/yazi-x86_64-unknown-linux-gnu.zip
