@@ -40,6 +40,7 @@ ffmpegthumbnailer
 findutils
 fish
 flex
+fonts-atkinson-hyperlegible
 fonts-firacode
 fonts-hack
 fonts-inconsolata
@@ -84,6 +85,7 @@ openssl
 p7zip-full
 pandoc
 pgformatter
+picom
 pkgconf
 playerctl
 polybar
