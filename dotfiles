@@ -8,6 +8,7 @@ config/i3
 config/kitty
 config/nvim
 config/polybar
+config/rofi
 config/tmux
 config/yazi
 dircolors

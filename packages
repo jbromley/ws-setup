@@ -40,6 +40,7 @@ ffmpegthumbnailer
 findutils
 fish
 flex
+fonts-atkinson-hyperlegible
 fonts-firacode
 fonts-hack
 fonts-inconsolata
@@ -67,7 +68,8 @@ i3
 i3blocks
 i3lock
 i3status
-i3wm
+i3-wm
+imagemagick
 iputils-ping
 jq
 libstdc++-14-dev
@@ -84,6 +86,7 @@ openssl
 p7zip-full
 pandoc
 pgformatter
+picom
 pkgconf
 playerctl
 polybar
@@ -101,6 +104,7 @@ ripgrep
 rlwrap
 rofi
 rsync
+scrot
 shellcheck
 shfmt
 silversearcher-ag

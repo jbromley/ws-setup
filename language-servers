@@ -5,7 +5,7 @@ dot-language-server     npm
 dprint                  zip    https://github.com/dprint/dprint/releases/download/0.50.2/dprint-x86_64-unknown-linux-gnu.zip
 elp                     tar    https://github.com/WhatsApp/erlang-language-platform/releases/download/2025-07-21/elp-linux-x86_64-unknown-linux-gnu-otp-26.2.tar.gz
 vscode-json-languageservice npm
-lemminx                 zip    https://github.com/redhat-developer/vscode-xml/releases/download/latest/lemminx-linux.zip
+lemminx-linux           zip    https://github.com/redhat-developer/vscode-xml/releases/download/latest/lemminx-linux.zip
 lua-language-server     tardir https://github.com/LuaLS/lua-language-server/releases/download/3.15.0/lua-language-server-3.15.0-linux-x64.tar.gz .opt/lua-language-server
 marksman                binary https://github.com/artempyanykh/marksman/releases/download/2024-12-18/marksman-linux-x64 marksman-linux-x64
 neocmakelsp             cargo
